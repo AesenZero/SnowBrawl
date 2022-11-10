@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 public class ShootingSystem : MonoBehaviour
 {
-    [SerializeField] GameObject projectilePrefab;
+    [SerializeField] protected GameObject projectilePrefab;
     [SerializeField] Text txt;
     [SerializeField] protected GameObject projectile;
     [SerializeField] protected Rigidbody Kin;
@@ -52,13 +52,14 @@ public class ShootingSystem : MonoBehaviour
         
     }
 
-    protected void CmdShoot()
+    protected virtual void CmdShoot()
     {
         sv = (shootingPosition.position - shootingStart.position).normalized;
         projectile = Instantiate(projectilePrefab, shootingPosition.position, transform.rotation);
         if (skChange.GetSkills()[KeyOfBall].IsConsumable())
         {
             skChange.GetSkills()[KeyOfBall].Disable();
+            skChange.ChangeSkillAmount(KeyOfBall);
             if(skChange.GetSkills()[KeyOfBall].GetAmount() == 0) skChange.CmdNext();
         }
         Kin = projectile.GetComponent<Rigidbody>();

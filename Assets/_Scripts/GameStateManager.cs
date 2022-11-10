@@ -47,6 +47,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] string winnerName;
     [SerializeField] bool GodMode;
     [SerializeField] bool isPaused;
+    [SerializeField] bool isFinalShowdown = false;
     private void Awake()
     {
         if (Manager != null)
@@ -64,6 +65,15 @@ public class GameStateManager : MonoBehaviour
         if (gameStarted && !isPaused)
         {
             TimeToEnd -= (Time.deltaTime);
+            if(players.Count == 2 && !isFinalShowdown)
+            {
+                foreach (GameObject pl in players)
+                {
+                    ShootingSystem shootSys = pl.GetComponent<ShootingSystem>();
+                    shootSys.SetBullets(shootSys.GetBulletMax());
+                    isFinalShowdown = true;
+                }
+            }
             if(players.Count == 1 && !gameEnded)
             {
                 ShootingSystem SS = players[0].GetComponent<ShootingSystem>();

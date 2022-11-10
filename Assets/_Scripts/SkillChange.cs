@@ -91,33 +91,34 @@ public class SkillChange : MonoBehaviour
     [SerializeField] KeyCode ChangeKey;
 
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         MySS = GetComponent<ShootingSystem>();
         K = 0;
         Balls[K].Activate();
-        
-	}
-	
+
+    }
+
     public Skill[] GetSkills()
     {
         return Balls;
     }
 
-	// Update is called once per frame
-	protected virtual void Update ()
+    // Update is called once per frame
+    protected virtual void Update()
     {
 
         if (Input.GetKeyDown(ChangeKey)) CmdNext();
-	}
 
-    
+    }
+
+
     protected virtual void Change(Skill Ball)
     {
-      MySS.SetProjectilePrefab(Ball.GetBall());
-      MySS.SetKeyOfBall(Ball.GetKey());
-      IconChange(Ball.GetKey());
+        MySS.SetProjectilePrefab(Ball.GetBall());
+        MySS.SetKeyOfBall(Ball.GetKey());
+        IconChange(Ball.GetKey());
 
 
     }
@@ -135,7 +136,7 @@ public class SkillChange : MonoBehaviour
             }
 
         }
-        while (oldK!=K);
+        while (oldK != K);
     }
 
     public void ChangeSkillPlayer(int i)
@@ -146,6 +147,11 @@ public class SkillChange : MonoBehaviour
     public virtual void IconChange(int K)
     {
         UImanager.UIman.ChangeSkillIcon(GetIcon(K));
+        UImanager.UIman.ChangeSkillAmount(Balls[K]);
+    }
+
+    public virtual void ChangeSkillAmount(int K)
+    {
         UImanager.UIman.ChangeSkillAmount(Balls[K]);
     }
 

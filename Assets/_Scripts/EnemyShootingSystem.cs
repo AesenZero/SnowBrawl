@@ -19,6 +19,28 @@ public class EnemyShootingSystem : ShootingSystem
         
     }
 
+    protected override void CmdShoot()
+    {
+        sv = (shootingPosition.position - shootingStart.position).normalized;
+        projectile = Instantiate(projectilePrefab, shootingPosition.position, transform.rotation);
+        if (skChange.GetSkills()[KeyOfBall].IsConsumable())
+        {
+            skChange.GetSkills()[KeyOfBall].Disable();
+            if (skChange.GetSkills()[KeyOfBall].GetAmount() == 0) skChange.CmdNext();
+        }
+        Kin = projectile.GetComponent<Rigidbody>();
+        ReloadSys = projectile.GetComponent<BulletSkill>();
+        GameStateManager.Manager.GetShotSkills().Add(ReloadSys);
+        ReloadSys.SetInstigator(gameObject);
+        ReloadSys.SetParentForward(gameObject.transform.forward);
+        Kin.velocity = shootingSpeed * (sv);
+        ReloadSys.SetParent(gameObject.GetComponent<ShootingSystem>());
+        projectile = null;
+        Bullets--;
+
+
+    }
+
     public void Shoot()
     {
         if (curShootingDelay <= 0)

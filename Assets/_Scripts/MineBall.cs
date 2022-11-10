@@ -15,6 +15,7 @@ public class MineBall : BulletSkill
         transform.position = temp;
         if (Instigator.name != "Player") BulletLocation = BulletPlace;
         else BulletLocation = MinePlace;
+        gameObject.name = Instigator.name + " Mine";
         isStatic = true;
         key = 4;
 

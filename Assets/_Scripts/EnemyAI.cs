@@ -58,7 +58,7 @@ public class EnemyAI : MonoBehaviour
         closestBulletInSight = CheckingIfSomethingInSight(getAllSkills(), "SkillBall");
         if (IsSkillUsable(4, 0) == 4)
         {
-            Invoke("MineBomb", Random.Range(1f, 15f));
+            Invoke("MineBomb", Random.Range(5f, 15f));
         }
         if (target != null)
         {
@@ -93,7 +93,7 @@ public class EnemyAI : MonoBehaviour
         if (state == EnemyState.GoingAwayFromBorder)
         {
             MoveToTarget(centerOfTheStage, true);
-            if (stagePanicValue < 0.7)
+            if (stagePanicValue < 0.8)
             {
                 target = null;
                 state = lastState;
@@ -246,7 +246,7 @@ public class EnemyAI : MonoBehaviour
         float tempF = 0f;
         foreach (GameObject en in Things)
         {
-            if (en == null || en == gameObject || en.tag == ignoreTag) continue;
+            if (en == null || en == gameObject || en.tag == ignoreTag || en.name == gameObject.name + " Mine") continue;
             Vector3 dirToThing = en.transform.position - transform.position;
             tempF = Vector3.Distance(en.transform.position, transform.position);
             if (Vector3.Angle(transform.forward, dirToThing) < rangeAngle / 2f && tempF < minDist)
